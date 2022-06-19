@@ -1,0 +1,19 @@
+.flag {
+    border: 1px solid black;
+}
+
+.country--name {
+    display: inline;
+}
+
+.country--show-btn {
+    display: inline;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    background: #FFF;
+}
+
+.country--show-btn:hover {
+    background: rgb(214, 214, 214);
+    cursor: pointer;
+}
