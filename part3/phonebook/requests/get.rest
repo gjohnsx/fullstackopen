@@ -1,0 +1,16 @@
+GET http://localhost:3001/api/people
+
+###
+GET http://localhost:3001/api/people/62ae13cfe9a89229c4120058
+
+###
+DELETE http://localhost:3001/api/people/62ae0ef975fa6221eacde6ce
+
+###
+POST http://localhost:3001/api/people
+Content-Type: application/json
+
+{
+    "name": "Fred",
+    "number": "123-234-5832"
+}
