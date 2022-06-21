@@ -38,7 +38,7 @@ test('unique identifier property of blog post is named id', async () => {
 });
 
 // Posting a blog:
-test.only('posting a new blog works', async () => {
+test('posting a new blog works', async () => {
   const newBlog = {
     title: 'New blog API test',
     author: 'gjohnsx',
@@ -57,6 +57,28 @@ test.only('posting a new blog works', async () => {
 
   const titles = blogsAtEnd.map(blog => blog.title);
   expect(titles).toContainEqual('New blog API test');
+});
+
+// New blog without likes defaults to 0
+test.only('new blog likes defaults to 0 if undefined', async() => {
+  // add a new blog without defining likes
+  const newBlogWithoutLikes = {
+    title: 'New blog without likes',
+    author: 'gjohnsx',
+    url: 'http://gjohns.xyz/no-likes',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlogWithoutLikes)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  // check that the likes of the new blog === 0
+  const blogsAtEnd = await helper.blogsInDb();
+
+  const blogToView = blogsAtEnd[blogsAtEnd.length -1];
+  expect(blogToView.likes).toEqual(0);
 });
 
 describe('Likes', () => {
