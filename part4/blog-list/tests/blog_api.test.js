@@ -26,48 +26,52 @@ test('blogs are returned as json', async () => {
     .expect('Content-Type', /application\/json/);
 });
 
-test.only('all blogs are returned', async () => {
+test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs');
 
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
+test.only('unique identifier property of blog post is named id', async () => {
+  const blogs = await api.get('/api/blogs');
+  expect(blogs.body[0].id).toBeDefined();
+});
 
-// describe('Likes', () => {
+describe('Likes', () => {
 //   test('Only 1 blog', () => {
-//     const result = listHelper.totalLikes(listWithOneBlog);
+//     const result = helper.totalLikes(helper.initialBlogs);
 //     expect(result).toBe(5);
 //   });
 
-//   test('Many blogs', () => {
-//     const result = listHelper.totalLikes(blogs);
-//     expect(result).toBe(36);
-//   });
-// });
+  test('Many blogs', () => {
+    const result = helper.totalLikes(helper.initialBlogs);
+    expect(result).toBe(36);
+  });
+});
 
-// describe('Favorites', () => {
-//   test('Blog with the most likes', () => {
-//     expect(listHelper.favoriteBlog(blogs)).toEqual({
-//       title: 'Canonical string reduction',
-//       author: 'Edsger W. Dijkstra',
-//       likes: 12
-//     });
-//   });
+describe('Favorites', () => {
+  test('Blog with the most likes', () => {
+    expect(helper.favoriteBlog(helper.initialBlogs)).toEqual({
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      likes: 12
+    });
+  });
 
-//   test('Author with most blogs', () => {
-//     expect(listHelper.mostBlogs(blogs)).toEqual({
-//       author: 'Robert C. Martin',
-//       blogs: 3
-//     });
-//   });
+  test('Author with most blogs', () => {
+    expect(helper.mostBlogs(helper.initialBlogs)).toEqual({
+      author: 'Robert C. Martin',
+      blogs: 3
+    });
+  });
 
-//   test('Blog with most likes', () => {
-//     expect(listHelper.mostLikes(blogs)).toEqual({
-//       author: 'Edsger W. Dijkstra',
-//       likes: 17
-//     });
-//   });
-// });
+  test('Blog with most likes', () => {
+    expect(helper.mostLikes(helper.initialBlogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    });
+  });
+});
 
 // * After Testing:
 afterAll(() => {
