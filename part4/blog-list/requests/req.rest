@@ -1,18 +1,42 @@
 GET http://localhost:3001/api/blogs/
 
 ###
-GET http://localhost:3001/api/blogs/62b0c22642a1504598a64bc3
+GET http://localhost:3001/api/blogs/62b0c2e884596fd3c87b0091
 
 ###
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "Backend working!",
+    "title": "a test blog",
     "author": "Greg",
     "url": "www.greg.com",
     "likes": 100
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/62b0c22642a1504598a64bc3
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+    "author": "gjohnsx"
+}
+
+###
+DELETE http://localhost:3001/api/blogs/62b224f9c6b7f9243da26143
+
+###
+PUT http://localhost:3001/api/blogs/62b0c2e884596fd3c87b0091
+Content-Type: application/json
+
+{
+    "likes": 1
+}
+
+###
+PUT http://localhost:3001/api/blogs/62b0c2e884596fd3c87b0091
+Content-Type: application/json
+
+{
+    "title": "changing the title seems to work..."
+}

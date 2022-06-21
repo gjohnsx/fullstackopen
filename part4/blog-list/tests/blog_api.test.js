@@ -96,7 +96,7 @@ describe('posting a new blog', () => {
 });
 
 describe('deleting a blog post', () => {
-  test.only('succeeds with status code 204 with valid id', async () => {
+  test('succeeds with status code 204 with valid id', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const blogToDelete = blogsAtStart[0];
 
@@ -109,6 +109,48 @@ describe('deleting a blog post', () => {
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
     const titles = blogsAtEnd.map(blog => blog.title);
     expect(titles).not.toContain(blogToDelete.title);
+  });
+});
+
+describe('updating a blog post', () => {
+  test('succeeds with status code 200 when changing TITLE', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+
+    const newBlogContent = {
+      title: 'This is a brand new title!'
+    };
+
+    // change the title
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .expect(200)
+      .send(newBlogContent)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+    expect(blogsAtEnd[0].title).toEqual(newBlogContent.title);
+  });
+
+  test('succeeds with status code 200 when changing LIKES', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+
+    const newBlogContent = {
+      likes: 123
+    };
+
+    // change the likes
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .expect(200)
+      .send(newBlogContent)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+    expect(blogsAtEnd[0].likes).toEqual(newBlogContent.likes);
   });
 });
 
