@@ -1,18 +1,18 @@
 GET http://localhost:3001/api/blogs/
 
 ###
-GET http://localhost:3001/api/blogs/62b0c07b77ea50d26bafd711
+GET http://localhost:3001/api/blogs/62b0c22642a1504598a64bc3
 
 ###
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "3 Fullstack open is the best",
+    "title": "Backend working!",
     "author": "Greg",
     "url": "www.greg.com",
     "likes": 100
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/62b0c2ea84596fd3c87b0093
+DELETE http://localhost:3001/api/blogs/62b0c22642a1504598a64bc3
