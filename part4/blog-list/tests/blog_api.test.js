@@ -32,9 +32,31 @@ test('all blogs are returned', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
-test.only('unique identifier property of blog post is named id', async () => {
+test('unique identifier property of blog post is named id', async () => {
   const blogs = await api.get('/api/blogs');
   expect(blogs.body[0].id).toBeDefined();
+});
+
+// Posting a blog:
+test.only('posting a new blog works', async () => {
+  const newBlog = {
+    title: 'New blog API test',
+    author: 'gjohnsx',
+    url: 'http://gjohns.xyz',
+    likes: 0,
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+  const titles = blogsAtEnd.map(blog => blog.title);
+  expect(titles).toContainEqual('New blog API test');
 });
 
 describe('Likes', () => {
