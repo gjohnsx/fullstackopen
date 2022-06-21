@@ -59,9 +59,7 @@ test('posting a new blog works', async () => {
   expect(titles).toContainEqual('New blog API test');
 });
 
-// New blog without likes defaults to 0
-test.only('new blog likes defaults to 0 if undefined', async() => {
-  // add a new blog without defining likes
+test('new blog likes defaults to 0 if undefined', async () => {
   const newBlogWithoutLikes = {
     title: 'New blog without likes',
     author: 'gjohnsx',
@@ -74,11 +72,24 @@ test.only('new blog likes defaults to 0 if undefined', async() => {
     .expect(201)
     .expect('Content-Type', /application\/json/);
 
-  // check that the likes of the new blog === 0
   const blogsAtEnd = await helper.blogsInDb();
 
   const blogToView = blogsAtEnd[blogsAtEnd.length -1];
   expect(blogToView.likes).toEqual(0);
+});
+
+test('new blog without title and url is not created', async () => {
+  const newBlogWithoutTitleUrl = {
+    author: 'gjohnsx',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlogWithoutTitleUrl)
+    .expect(400);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
 });
 
 describe('Likes', () => {
