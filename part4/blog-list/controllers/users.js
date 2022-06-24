@@ -4,7 +4,10 @@ const User = require('../models/user');
 
 // * GET
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({});
+  const users = await User
+    .find({})
+    .populate('blogs');
+
   response.json(users);
 });
 
@@ -35,6 +38,12 @@ usersRouter.post('/', async (request, response) => {
       }
     }
   });
+});
+
+// * DELETE
+usersRouter.delete('/:id', async (request, response) => {
+  await User.findByIdAndRemove(request.params.id);
+  response.status(204).end();
 });
 
 module.exports = usersRouter;

@@ -1,17 +1,17 @@
 GET http://localhost:3001/api/blogs/
 
 ###
-GET http://localhost:3001/api/blogs/62b0c2e884596fd3c87b0091
+GET http://localhost:3001/api/blogs/62b4db26e07ac5eca21d1f97
 
 ###
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "a test blog",
-    "author": "Greg",
-    "url": "www.greg.com",
-    "likes": 100
+    "title": "Greg's First Blog",
+    "author": "Greg J",
+    "url": "https://www.fred.com/1/",
+    "likes": 0
 }
 
 ###
@@ -23,18 +23,18 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/62b224f9c6b7f9243da26143
+DELETE http://localhost:3001/api/blogs/62b5e0771b45a08b9f0ad7f2
 
 ###
-PUT http://localhost:3001/api/blogs/62b0c2e884596fd3c87b0091
+PUT http://localhost:3001/api/blogs/62b23103bf01ae26ed2a749f
 Content-Type: application/json
 
 {
-    "likes": 1
+    "likes": 12345
 }
 
 ###
-PUT http://localhost:3001/api/blogs/62b0c2e884596fd3c87b0091
+PUT http://localhost:3001/api/blogs/62b23103bf01ae26ed2a749f
 Content-Type: application/json
 
 {
