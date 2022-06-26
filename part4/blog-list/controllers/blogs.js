@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
 const User = require('../models/user');
@@ -25,33 +26,49 @@ blogsRouter.get('/:id', (request, response, next) => {
 
 
 // * POST
+const getTokenFrom = request => {
+  const authorization = request.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body;
-
-  // const user = await User.findById(body.userId);
-  const user = await User.findOne({ username: 'greg' });
-  console.log('using a placeholder user:', user, '\n');
-  console.log('\nuser._id=', user.id);
-
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.number,
-    user: user._id
-  });
+  const token = getTokenFrom(request);
 
   try {
-    const savedBlog = await blog.save();
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' });
+    }
+    const user = await User.findById(decodedToken.id);
 
-    // ! This is what i was missing!
-    // * Need to also change the User object by concatting new blogs
-    user.blogs = user.blogs.concat(savedBlog._id);
-    await user.save();
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.number,
+      user: user._id
+    });
 
-    response.status(201).json(savedBlog);
-  } catch(e) {
-    next(e);
+    try {
+      const savedBlog = await blog.save();
+
+      // * Need to also change the User object by concatting new blogs
+      user.blogs = user.blogs.concat(savedBlog._id);
+      await user.save();
+
+      response.status(201).json(savedBlog);
+    } catch(e) {
+      next(e);
+    }
+
+  } catch (error) {
+    // Why isn't this getting caught in the middleware?
+    // Had to add this manually here because middleware wasn't doing its job
+    response.status(401).json({ error: 'yo its messed up dawg' });
   }
 });
 
