@@ -8,9 +8,9 @@ POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "Greg's First Blog",
+    "title": "Greg's 2nd Blog",
     "author": "Greg J",
-    "url": "https://www.fred.com/1/",
+    "url": "https://www.greg.com/2/",
     "likes": 0
 }
 
@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/62b5e0771b45a08b9f0ad7f2
+DELETE http://localhost:3001/api/blogs/62b5e25706c0b87e1458d085
 
 ###
 PUT http://localhost:3001/api/blogs/62b23103bf01ae26ed2a749f
