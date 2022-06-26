@@ -1,5 +1,6 @@
-const { auth } = require('twitter-api-sdk');
 const logger = require('./logger');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method);
@@ -15,6 +16,23 @@ const tokenExtractor = (request, response, next) => {
     request.token = authorization.substring(7);
   } else {
     request.token = null;
+  }
+
+  next();
+};
+
+const userExtractor = async (request, response, next) => {
+  try {
+    const userObj = jwt.verify(request.token, process.env.SECRET);
+
+    const userId = userObj.id;
+
+    const user = await User.findById(userId);
+
+    request.user = user;
+
+  } catch (error) {
+    console.log(error.message);
   }
 
   next();
@@ -40,6 +58,7 @@ const errorHandler = (error, request, response, next) => {
 module.exports = {
   requestLogger,
   tokenExtractor,
+  userExtractor,
   unknownEndpoint,
   errorHandler
 };
