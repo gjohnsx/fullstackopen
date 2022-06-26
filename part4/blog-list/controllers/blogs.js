@@ -24,7 +24,6 @@ blogsRouter.get('/:id', (request, response, next) => {
     .catch(error => next(error));
 });
 
-
 // * POST
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body;
@@ -57,17 +56,35 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 
   } catch (error) {
-    // Why isn't this getting caught in the middleware?
-    // Had to add this manually here because middleware wasn't doing its job
-    response.status(401).json({ error: error.message });
+    next(error);
   }
 });
 
-blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(204).end();
+// * DELETE
+blogsRouter.delete('/:id', async (request, response, next) => {
+  try {
+    console.log(jwt.decode(request.token));
+    const userId = jwt.decode(request.token).id;
+    console.log('userId:', userId);
+
+    const blog = await Blog.findById(request.params.id);
+    const blogUserId = blog.user.toString();
+    console.log('blogUserId:', blogUserId);
+
+
+    if (userId === blogUserId) {
+      await Blog.findByIdAndRemove(request.params.id);
+      response.status(204).end();
+    } else {
+      response.status(403).json({ error: 'You are not the blog author!' });
+    }
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+    next(error);
+  }
 });
 
+// * PUT
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body;
 
