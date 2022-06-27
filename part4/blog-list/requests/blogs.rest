@@ -9,15 +9,33 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdqb2hucyIsImlkIjoiNjJiN2RhYzg3ZTc4ODBmMmU1MDNiYzcyIiwiaWF0IjoxNjU2MjU2MzU4fQ.-HwtaXLzghU8EPrmlWwV1BJ8qhP8z6ZoWOrKRynRtJA
 
 {
-    "title": "gjohns token blog #61",
+    "title": "bbbeeee ccccdddd",
     "author": "gjohns",
-    "url": "https://www.greg.com/token-3/",
+    "url": "https://www.greg.com/token-2/",
     "likes": 0
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/62b8796df685f0b50b8eec6a
-Authorization: bearer eyJhbfciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1d2VybmFtZSI6Imdqb2hucyIsImlkIjoiNjJiN2RhYzg3ZTc4ODBmMmU1MDNiYzcyIiwiaWF0IjoxNjU2MjU2MzU4fQ.-HwtaXLzghU8EPrmlWwV1BJ8qhP8z6ZoWOrKRynRtJA
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyZWQiLCJpZCI6IjYyYjVlMDE5NzM1ZTBiMTZlMGE5ZDBlZCIsImlhdCI6MTY1NjI3MjA1OX0.NZaDcnXty6Vp3B2UADtcNtD_sERkHDOdsCHJQrIq7kU
+
+{
+    "title": "FREDS blog",
+    "author": "fred",
+    "url": "https://www.fred.com/token-2/",
+    "likes": 0
+}
+
+###
+### Fred's Delete Auth
+DELETE http://localhost:3001/api/blogs/62b8b4d8a285a1fc12be4833
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyZWQiLCJpZCI6IjYyYjVlMDE5NzM1ZTBiMTZlMGE5ZDBlZCIsImlhdCI6MTY1NjI3MjA1OX0.NZaDcnXty6Vp3B2UADtcNtD_sERkHDOdsCHJQrIq7kU
+
+###
+### Greg's delete auth
+DELETE http://localhost:3001/api/blogs/62b8a81f9bd4cbadbcd1f196
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdqb2hucyIsImlkIjoiNjJiN2RhYzg3ZTc4ODBmMmU1MDNiYzcyIiwiaWF0IjoxNjU2MjU2MzU4fQ.-HwtaXLzghU8EPrmlWwV1BJ8qhP8z6ZoWOrKRynRtJA
 
 ###
 PUT http://localhost:3001/api/blogs/62b87779354311495e9e76f9

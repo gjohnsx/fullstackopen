@@ -8,3 +8,12 @@ Content-Type: application/json
     "username": "gjohns",
     "password": "fullstack"
 }
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "fred",
+    "password": "aaa"
+}

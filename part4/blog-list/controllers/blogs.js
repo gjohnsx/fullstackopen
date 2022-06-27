@@ -46,6 +46,7 @@ blogsRouter.post('/', async (request, response, next) => {
 
     response.status(201).json(savedBlog);
   } catch (error) {
+    response.status(401).json({ error: error.message });
     next(error);
   }
 });

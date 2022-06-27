@@ -5,16 +5,23 @@ const app = require('../app');
 const api = supertest(app);
 
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 // * Before Testing:
 beforeEach(async () => {
   await Blog.deleteMany({});
+  await User.deleteMany({});
   console.log('cleared');
 
-  const blogObjects = helper.initialBlogs
-    .map(blog => new Blog(blog));
-  const promiseArray = blogObjects.map(blog => blog.save());
-  await Promise.all(promiseArray);
+  // const blogObjects = helper.initialBlogs
+  //   .map(blog => new Blog(blog));
+  // const promiseArray = blogObjects.map(blog => blog.save());
+  // await Promise.all(promiseArray);
+
+  // const userObjects = helper.initialUsers
+  //   .map(user => new User(user));
+  // const promiseArrayUsers = userObjects.map(user => user.save());
+  // await Promise.all(promiseArrayUsers);
 });
 
 
@@ -39,26 +46,96 @@ describe('when there are initially some blogs saved', () => {
   });
 });
 
+// * POST
 describe('posting a new blog', () => {
   test('succeeds with status code 201 with valid data', async () => {
+    const newUser = {
+      username: 'gregtest',
+      name: 'Gregory Johns',
+      password: 'password'
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201);
+
+    const user = {
+      username: 'gregtest',
+      password: 'password'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user);
+
+    const token = `bearer ${response._body.token}`;
+    console.log(token);
+
     const newBlog = {
       title: 'New blog API test',
-      author: 'gjohnsx',
-      url: 'http://gjohns.xyz',
+      author: 'gregtest',
+      url: 'http://gregtest.xyz',
       likes: 0,
     };
 
     await api
       .post('/api/blogs')
+      .set('Authorization', token)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
     const blogsAtEnd = await helper.blogsInDb();
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+    // expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
     const titles = blogsAtEnd.map(blog => blog.title);
     expect(titles).toContainEqual('New blog API test');
+  });
+
+  test('fails with status code 401 if no token provided', async () => {
+    const newUser = {
+      username: 'gregtest',
+      name: 'Gregory Johns',
+      password: 'password'
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201);
+
+    const user = {
+      username: 'gregtest',
+      password: 'password'
+    }
+
+    const response = await api
+      .post('/api/login')
+      .send(user);
+
+    const token = null;
+    console.log(token);
+
+    const newBlog = {
+      title: 'No Token blog API test',
+      author: 'gregtest',
+      url: 'http://gregtest.xyz',
+      likes: 0,
+    };
+
+    await api
+      .post('/api/blogs')
+      .set('Authorization', token)
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(0);
+
+    // const titles = blogsAtEnd.map(blog => blog.title);
+    // expect(titles).toContainEqual('New blog API test');
   });
 
   test('likes default to 0 if undefined in new blog creation', async () => {

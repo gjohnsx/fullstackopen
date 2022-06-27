@@ -7,6 +7,11 @@ const initialBlogs = [
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
     likes: 7,
+    user: {
+      username: 'gjohns',
+      name: 'greg',
+      id: '62b7dac87e7880f2e503bc72'
+    },
     __v: 0
   },
   {
@@ -15,6 +20,11 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
+    user: {
+      username: 'gjohns',
+      name: 'greg',
+      id: '62b7dac87e7880f2e503bc72'
+    },
     __v: 0
   },
   {
@@ -23,6 +33,11 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
+    user: {
+      username: 'gjohns',
+      name: 'greg',
+      id: '62b7dac87e7880f2e503bc72'
+    },
     __v: 0
   },
   {
@@ -31,6 +46,11 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
+    user: {
+      username: 'gjohns',
+      name: 'greg',
+      id: '62b7dac87e7880f2e503bc72'
+    },
     __v: 0
   },
   {
@@ -39,6 +59,11 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
+    user: {
+      username: 'gjohns',
+      name: 'greg',
+      id: '62b7dac87e7880f2e503bc72'
+    },
     __v: 0
   },
   {
@@ -47,9 +72,35 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
+    user: {
+      username: 'gjohns',
+      name: 'greg',
+      id: '62b7dac87e7880f2e503bc72'
+    },
     __v: 0
   }
 ];
+
+const initialUsers = [
+  {
+    username: 'greg',
+    name: 'Greg J',
+    blogs: [],
+    id: '62b4e8c8772df0b921c41159'
+  },
+  {
+    username: 'fred',
+    name: 'Fred A',
+    blogs: [],
+    id: '62b5e019735e0b16e0a9d0ed'
+  },
+  {
+    username: 'gjohns',
+    name: 'Greg J',
+    blogs: [],
+    id: '62b7dac87e7880f2e503bc72'
+  }
+]
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
@@ -138,6 +189,7 @@ const mostLikes = blogs => {
 
 module.exports = {
   initialBlogs,
+  initialUsers,
   blogsInDb,
   totalLikes,
   favoriteBlog,
