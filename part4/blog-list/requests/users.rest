@@ -1,0 +1,14 @@
+GET http://localhost:3001/api/users/
+
+###
+POST http://localhost:3001/api/users/
+Content-Type: application/json
+
+{
+    "username": "gjohns",
+    "name": "Greg J",
+    "password": "fullstack"
+}
+
+###
+DELETE http://localhost:3001/api/users/62b5de483fb5d87a4a896e40
