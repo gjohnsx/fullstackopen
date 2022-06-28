@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
+import LogoutButton from './components/LogoutButton';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -13,7 +14,16 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const localUserJSON = window.localStorage.getItem('loggedInBlogAppUser');
+    if (localUserJSON) { 
+      const user = JSON.parse(localUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    };
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -23,8 +33,11 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
-
-      console.log('did we get the user back?\n', user);
+      
+      // save to local storage
+      window.localStorage.setItem(
+        'loggedInBlogAppUser', JSON.stringify(user)
+      );
 
       blogService.setToken(user.token);
       setUser(user);
@@ -70,6 +83,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <p><strong>{user.name}</strong> logged in</p>
+      <LogoutButton setUser={setUser} />
       {blogsDisplay()}
     </div>
   )
