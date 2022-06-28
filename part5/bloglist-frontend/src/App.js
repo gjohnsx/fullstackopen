@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import LogoutButton from './components/LogoutButton';
 import CreateNewBlog from './components/CreateNewBlog';
+import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
 const App = () => {
+  const [notification, setNotification] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
@@ -34,7 +36,7 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
-      
+
       // save to local storage
       window.localStorage.setItem(
         'loggedInBlogAppUser', JSON.stringify(user)
@@ -45,9 +47,17 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (error) {
+      console.log('this user doesnt exist... what happens to him?\n', user);
       console.log(error);
-      alert(error.message);
-    }
+      // alert(error.message);
+      setNotification(prevNotification => ({
+        text: 'wrong username or password',
+        type: 'error'
+      }))
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000);
+    };
   };
 
   const blogsDisplay = () => (
@@ -77,6 +87,9 @@ const App = () => {
             />
             <button>log in</button>
           </form>
+
+          {notification && <Notification notification={notification}/>}
+          
         </div>
     )
   }
@@ -84,9 +97,15 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {notification && <Notification notification={notification}/>}
       <p><strong>{user.name}</strong> logged in</p>
       <LogoutButton setUser={setUser} />
-      <CreateNewBlog blogs={blogs} setBlogs={setBlogs} />
+      <CreateNewBlog 
+        blogs={blogs}
+        setBlogs={setBlogs}
+        notification={notification}
+        setNotification={setNotification}
+      />
       {blogsDisplay()}
     </div>
   )

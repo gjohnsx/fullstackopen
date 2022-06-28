@@ -22,7 +22,18 @@ const CreateNewBlog = (props) => {
                     author: '',
                     url: '',
                 });
-        });
+                props.setNotification(prevNotification => ({
+                    text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added`,
+                    type: 'success'
+                }));
+            })
+            .then(setTimeout(() => {
+                props.setNotification(null);
+            }, 5000))
+            .catch(error => props.setNotification(prevNotification => ({
+                text: error.message,
+                type: 'error'
+            })))
     };
 
     const handleChange = (event) => {
@@ -48,12 +59,6 @@ const CreateNewBlog = (props) => {
                 </label>
                 <button>Add new blog</button>
             </form>
-            <p>Debug:</p>
-            <ul>
-                <li>Title: {blogData.title}</li>
-                <li>Author: {blogData.author}</li>
-                <li>Url: {blogData.url}</li>
-            </ul>
         </div>
     );
 };
