@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import LogoutButton from './components/LogoutButton';
+import CreateNewBlog from './components/CreateNewBlog';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -85,6 +86,7 @@ const App = () => {
       <h2>blogs</h2>
       <p><strong>{user.name}</strong> logged in</p>
       <LogoutButton setUser={setUser} />
+      <CreateNewBlog blogs={blogs} setBlogs={setBlogs} />
       {blogsDisplay()}
     </div>
   )
