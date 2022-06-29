@@ -19,11 +19,11 @@ const Toggleable = forwardRef((props, refs) => {
     return (
         <div>
             <div style={hideWhenVisible}>
-                <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+                <button className='bg-blue-600 text-white border border-black py-1 px-2 rounded-md my-2' onClick={toggleVisibility}>{props.buttonLabel}</button>
             </div>
             <div style={showWhenVisible}>
                 {props.children}
-                <button onClick={toggleVisibility}>Hide Form</button>
+                <button className='border border-black py-1 px-2 rounded-md my-2' onClick={toggleVisibility}>Hide Form</button>
             </div>
         </div>
     );

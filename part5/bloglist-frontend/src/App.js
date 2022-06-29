@@ -90,22 +90,12 @@ const App = () => {
   }
 
   const blogForm = () => (
-    <Toggleable buttonLabel='add new note' ref={blogFormRef}>
+    <Toggleable buttonLabel='add new blog' ref={blogFormRef}>
       <CreateNewBlog 
         createBlog={addBlog}
       />
     </Toggleable>
   );
-  // const blogForm = () => (
-  //   <Toggleable buttonLabel='add new note' ref={blogFormRef}>
-  //     <CreateNewBlog 
-  //       blogs={blogs}
-  //       setBlogs={setBlogs}
-  //       notification={notification}
-  //       setNotification={setNotification}
-  //     />
-  //   </Toggleable>
-  // );
 
   if (user === null) {
     return (
@@ -136,8 +126,8 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>blogs</h2>
+    <div className='mx-2 my-4'>
+      <h2 className='text-8xl	text-blue-900'>blogs</h2>
       {notification && <Notification notification={notification}/>}
       <p><strong>{user.name}</strong> logged in</p>
       <LogoutButton setUser={setUser} />

@@ -7,7 +7,12 @@ const LogoutButton = props => {
     };
 
     return (
-        <button onClick={logout}>Logout</button>
+        <button 
+            onClick={logout}
+            className='border border-black py-1 px-2 rounded-md mt-2'
+        >
+            Logout
+        </button>
     );
 };
 
