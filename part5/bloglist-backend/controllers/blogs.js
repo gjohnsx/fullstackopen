@@ -1,7 +1,5 @@
-const jwt = require('jsonwebtoken');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
-const User = require('../models/user');
 
 // * GET
 blogsRouter.get('/', async (request, response) => {
@@ -73,12 +71,12 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 // * PUT
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body;
-
   const blog = {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    user: body.user.id,
   };
 
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true });
