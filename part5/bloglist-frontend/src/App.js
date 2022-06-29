@@ -16,8 +16,6 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      console.log('Intial setting of blogs!\n');
-      console.log(blogs, typeof blogs)
       setBlogs( blogs.sort((a, b) => b.likes - a.likes));
     })
   }, []);
@@ -50,9 +48,6 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (error) {
-      console.log('this user doesnt exist... what happens to him?\n', user);
-      console.log(error);
-      // alert(error.message);
       setNotification(prevNotification => ({
         text: 'wrong username or password',
         type: 'error'
@@ -65,7 +60,7 @@ const App = () => {
 
   const blogsDisplay = () => (
     blogs.map(blog => 
-      <Blog key={blog.id} blog={blog} />
+      <Blog key={blog.id} blog={blog} user={user} />
       )
   );
 
@@ -78,7 +73,7 @@ const App = () => {
       .then(returnedBlog => {
           setBlogs(blogs.concat(returnedBlog));
           setNotification(prevNotification => ({
-              text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added`,
+              text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added..}`,
               type: 'success'
           }));
       })
@@ -101,11 +96,12 @@ const App = () => {
 
   if (user === null) {
     return (
-        <div>
+        <div className='mx-2 my-4'>
           <h1>log in to application</h1>
           <form onSubmit={handleLogin}>
             <input 
-              type='text' 
+              type='text'
+              className='mb-2 border border-gray-500 rounded' 
               placeholder='username' 
               name='username'
               value={username}
@@ -113,12 +109,13 @@ const App = () => {
             />
             <input
               type='password'
+              className='mb-2 border border-gray-500 rounded ml-1'
               placeholder='password'
               name='password'
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
-            <button>log in</button>
+            <button className='bg-blue-600 text-white border border-black px-2 rounded-md my-2 ml-1 hover:bg-blue-900'>log in</button>
           </form>
 
           {notification && <Notification notification={notification}/>}

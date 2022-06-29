@@ -33,13 +33,25 @@ const CreateNewBlog = ({ createBlog }) => {
         <div>
             <form className='border border-gray-300 p-2' onSubmit={addBlog}>
                 <label htmlFor='blog-title'>
-                    <p className='text-xl font-bold'>Title <input className='mb-2 border border-gray-500 rounded' id='blog-title' type='text' name='title' value={blogData.title} onChange={handleChange} required /></p>
+                    <p className='text-xl font-bold'>
+                        Title 
+                        <input className='ml-1 font-normal indent-0.5 mb-2 border border-gray-500 rounded' id='blog-title' type='text' name='title' value={blogData.title} onChange={handleChange} required 
+                        />
+                    </p>
                 </label>
                 <label htmlFor='blog-author'>
-                    <p className='text-xl font-bold'>Author <input className='mb-2 border border-gray-500 border-rounded' id='blog-author' type='text' name='author' value={blogData.author} onChange={handleChange} /></p>
+                    <p className='text-xl font-bold'>
+                        Author 
+                        <input className='ml-1 font-normal indent-0.5 mb-2 border border-gray-500 rounded' id='blog-author' type='text' name='author' value={blogData.author} onChange={handleChange} 
+                        />
+                    </p>
                 </label>
                 <label htmlFor='blog-url'>
-                    <p className='text-xl font-bold'>url <input className='border border-gray-500 border-rounded' id='blog-url' type='text' name='url' value={blogData.url} onChange={handleChange} /></p>
+                    <p className='text-xl font-bold'>
+                        url 
+                        <input className='ml-1 font-normal indent-0.5 border border-gray-500 rounded' id='blog-url' type='text' name='url' value={blogData.url} onChange={handleChange} 
+                        />
+                    </p>
                 </label>
                 <button className='bg-blue-600 text-white border border-black py-1 px-2 rounded-md my-2'>Create</button>
             </form>
