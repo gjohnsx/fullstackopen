@@ -15,9 +15,11 @@ const App = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then(blogs => {
+      console.log('Intial setting of blogs!\n');
+      console.log(blogs, typeof blogs)
+      setBlogs( blogs.sort((a, b) => b.likes - a.likes));
+    })
   }, []);
 
   useEffect(() => {
