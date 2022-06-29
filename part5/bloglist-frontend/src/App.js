@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import LogoutButton from './components/LogoutButton';
 import CreateNewBlog from './components/CreateNewBlog';
 import Notification from './components/Notification';
+import Toggleable from './components/Toggleable';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -64,7 +65,47 @@ const App = () => {
     blogs.map(blog => 
       <Blog key={blog.id} blog={blog} />
       )
-  )
+  );
+
+  const blogFormRef = useRef();
+
+  const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility();
+    blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+          setBlogs(blogs.concat(returnedBlog));
+          setNotification(prevNotification => ({
+              text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added`,
+              type: 'success'
+          }));
+      })
+      .then(setTimeout(() => {
+          setNotification(null);
+      }, 5000))
+      .catch(error => setNotification(prevNotification => ({
+          text: error.message,
+          type: 'error'
+      })));
+  }
+
+  const blogForm = () => (
+    <Toggleable buttonLabel='add new note' ref={blogFormRef}>
+      <CreateNewBlog 
+        createBlog={addBlog}
+      />
+    </Toggleable>
+  );
+  // const blogForm = () => (
+  //   <Toggleable buttonLabel='add new note' ref={blogFormRef}>
+  //     <CreateNewBlog 
+  //       blogs={blogs}
+  //       setBlogs={setBlogs}
+  //       notification={notification}
+  //       setNotification={setNotification}
+  //     />
+  //   </Toggleable>
+  // );
 
   if (user === null) {
     return (
@@ -100,12 +141,9 @@ const App = () => {
       {notification && <Notification notification={notification}/>}
       <p><strong>{user.name}</strong> logged in</p>
       <LogoutButton setUser={setUser} />
-      <CreateNewBlog 
-        blogs={blogs}
-        setBlogs={setBlogs}
-        notification={notification}
-        setNotification={setNotification}
-      />
+
+      {blogForm()}
+
       {blogsDisplay()}
     </div>
   )
