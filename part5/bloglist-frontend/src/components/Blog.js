@@ -79,7 +79,7 @@ const Blog = ({ blog, user }) => {
       </div>
 
       <button
-        className='bg-white-500 border border-blue-700 hover:text-white hover:bg-blue-700 text-blue-700 font-bold py-1 px-2 rounded-md my-2'
+        className='blog--btn-display bg-white-500 border border-blue-700 hover:text-white hover:bg-blue-700 text-blue-700 font-bold py-1 px-2 rounded-md my-2'
         onClick={toggleDisplay}
       >
         {fullDisplay ? 'hide' : 'view'}
