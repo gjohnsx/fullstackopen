@@ -21,8 +21,10 @@ describe('<Blog />', () => {
       user: user
     };
 
+    const mockHandler = jest.fn();
+
     container = render(
-      <Blog blog={blog} user={user} />
+      <Blog blog={blog} user={user} addLike={mockHandler} />
     ).container;
   });
 
@@ -54,8 +56,35 @@ describe('<Blog />', () => {
     expect(url).not.toBeNull();
     expect(likes).not.toBeNull();
   });
+
+  test('Adds 2 likes if the Like button is clicked twice', async () => {
+    const user = {
+      username: 'tester',
+      id: '12345'
+    };
+
+    const blog = {
+      author: 'Mr. Test',
+      title: 'Testing With Jest',
+      url: 'www.test.com/jest',
+      likes: 0,
+      user: user
+    };
+
+    const mockHandler = jest.fn();
+
+    container = render(
+      <Blog blog={blog} user={user} addLike={mockHandler} />
+    ).container;
+
+    const jestUser = userEvent.setup();
+    const showButton = container.querySelector('.blog--btn-display');
+    await jestUser.click(showButton);
+
+    const likeButton = container.querySelector('.blog--btn-like');
+    await jestUser.click(likeButton);
+    await jestUser.click(likeButton);
+
+    expect(mockHandler.mock.calls).toHaveLength(2);
+  });
 });
-
-
-
-

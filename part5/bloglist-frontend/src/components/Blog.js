@@ -7,7 +7,8 @@ import blogService from '../services/blogs';
 // Have to refresh the page in order to see "remove" button...
 // Also must make page re-render after successful delete
 
-const Blog = ({ blog, user }) => {
+// eslint-disable-next-line no-unused-vars
+const Blog = ({ blog, user, addLike }) => {
   const [fullDisplay, setFullDisplay] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
 
@@ -15,19 +16,24 @@ const Blog = ({ blog, user }) => {
     setFullDisplay(!fullDisplay);
   };
 
-  const addLike = () => {
-    console.log('adding like for', blog.id);
-    blogService
-      .addLike(blog.id, {
-        ...blog,
-        likes: likes + 1
-      })
-      .then(returnedBlog => {
-        setLikes(prevLikes => prevLikes + 1);
-        console.log(returnedBlog);
-      })
-      .catch(e => console.log(e));
+  const addLikeReRender = () => {
+    addLike(blog);
+    setLikes(prevLikes => prevLikes + 1);
   };
+
+  // const addLike = () => {
+  //   console.log('adding like for', blog.id);
+  //   blogService
+  //     .addLike(blog.id, {
+  //       ...blog,
+  //       likes: likes + 1
+  //     })
+  //     .then(returnedBlog => {
+  //       setLikes(prevLikes => prevLikes + 1);
+  //       console.log(returnedBlog);
+  //     })
+  //     .catch(e => console.log(e));
+  // };
 
   const removeBlog = () => {
     console.log('Removing blog', blog.id);
@@ -56,8 +62,8 @@ const Blog = ({ blog, user }) => {
             <p><a className='blog--url text-blue-400 underline hover:text-blue-700' href={blog.url}>{blog.url}</a></p>
             <p className='blog--likes m-0'>Likes: {likes}</p>
             <button
-              className='border border-gray-300 hover:bg-gray-200 ml-1 py-1 px-2 rounded-md mt-2'
-              onClick={addLike}
+              className='blog--btn-like border border-gray-300 hover:bg-gray-200 ml-1 py-1 px-2 rounded-md mt-2'
+              onClick={addLikeReRender}
             >
               like
             </button>
@@ -91,7 +97,8 @@ const Blog = ({ blog, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  addLike: PropTypes.func.isRequired,
 };
 
 export default Blog;

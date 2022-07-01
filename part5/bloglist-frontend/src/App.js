@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import LogoutButton from './components/LogoutButton';
@@ -58,12 +59,6 @@ const App = () => {
     }
   };
 
-  const blogsDisplay = () => (
-    blogs.map(blog =>
-      <Blog key={blog.id} blog={blog} user={user} />
-    )
-  );
-
   const blogFormRef = useRef();
 
   const addBlog = (blogObject) => {
@@ -86,12 +81,32 @@ const App = () => {
       })));
   };
 
+  const addLike = (blog) => {
+    console.log('adding like for', blog.id);
+    blogService
+      .addLike(blog.id, {
+        ...blog,
+        likes: blog.likes + 1
+      })
+      // .then(returnedBlog => {
+      //   setLikes(prevLikes => prevLikes + 1);
+      //   console.log(returnedBlog);
+      // })
+      .catch(e => console.log(e));
+  };
+
   const blogForm = () => (
     <Toggleable buttonLabel='add new blog' ref={blogFormRef}>
       <CreateNewBlog
         createBlog={addBlog}
       />
     </Toggleable>
+  );
+
+  const blogsDisplay = () => (
+    blogs.map(blog =>
+      <Blog key={blog.id} blog={blog} user={user} addLike={addLike} />
+    )
   );
 
   if (user === null) {
