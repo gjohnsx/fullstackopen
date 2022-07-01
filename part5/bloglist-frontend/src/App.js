@@ -17,26 +17,26 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs => {
       setBlogs( blogs.sort((a, b) => b.likes - a.likes));
-    })
+    });
   }, []);
 
   useEffect(() => {
     const localUserJSON = window.localStorage.getItem('loggedInBlogAppUser');
-    if (localUserJSON) { 
+    if (localUserJSON) {
       const user = JSON.parse(localUserJSON);
       setUser(user);
       blogService.setToken(user.token);
-    };
+    }
   }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('Logging in', username)
+    console.log('Logging in', username);
 
     try {
       const user = await loginService.login({
         username, password
-      })
+      });
 
       // save to local storage
       window.localStorage.setItem(
@@ -51,17 +51,17 @@ const App = () => {
       setNotification(prevNotification => ({
         text: 'wrong username or password',
         type: 'error'
-      }))
+      }));
       setTimeout(() => {
-        setNotification(null)
+        setNotification(null);
       }, 3000);
-    };
+    }
   };
 
   const blogsDisplay = () => (
-    blogs.map(blog => 
+    blogs.map(blog =>
       <Blog key={blog.id} blog={blog} user={user} />
-      )
+    )
   );
 
   const blogFormRef = useRef();
@@ -71,24 +71,24 @@ const App = () => {
     blogService
       .create(blogObject)
       .then(returnedBlog => {
-          setBlogs(blogs.concat(returnedBlog));
-          setNotification(prevNotification => ({
-              text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added..}`,
-              type: 'success'
-          }));
+        setBlogs(blogs.concat(returnedBlog));
+        setNotification(prevNotification => ({
+          text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added..}`,
+          type: 'success'
+        }));
       })
       .then(setTimeout(() => {
-          setNotification(null);
+        setNotification(null);
       }, 5000))
       .catch(error => setNotification(prevNotification => ({
-          text: error.message,
-          type: 'error'
+        text: error.message,
+        type: 'error'
       })));
-  }
+  };
 
   const blogForm = () => (
     <Toggleable buttonLabel='add new blog' ref={blogFormRef}>
-      <CreateNewBlog 
+      <CreateNewBlog
         createBlog={addBlog}
       />
     </Toggleable>
@@ -96,32 +96,32 @@ const App = () => {
 
   if (user === null) {
     return (
-        <div className='mx-2 my-4'>
-          <h1>log in to application</h1>
-          <form onSubmit={handleLogin}>
-            <input 
-              type='text'
-              className='mb-2 border border-gray-500 rounded' 
-              placeholder='username' 
-              name='username'
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-            <input
-              type='password'
-              className='mb-2 border border-gray-500 rounded ml-1'
-              placeholder='password'
-              name='password'
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-            <button className='bg-blue-600 text-white border border-black px-2 rounded-md my-2 ml-1 hover:bg-blue-900'>log in</button>
-          </form>
+      <div className='mx-2 my-4'>
+        <h1>log in to application</h1>
+        <form onSubmit={handleLogin}>
+          <input
+            type='text'
+            className='mb-2 border border-gray-500 rounded'
+            placeholder='username'
+            name='username'
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+          <input
+            type='password'
+            className='mb-2 border border-gray-500 rounded ml-1'
+            placeholder='password'
+            name='password'
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+          <button className='bg-blue-600 text-white border border-black px-2 rounded-md my-2 ml-1 hover:bg-blue-900'>log in</button>
+        </form>
 
-          {notification && <Notification notification={notification}/>}
-          
-        </div>
-    )
+        {notification && <Notification notification={notification}/>}
+
+      </div>
+    );
   }
 
   return (
@@ -135,7 +135,7 @@ const App = () => {
 
       {blogsDisplay()}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
