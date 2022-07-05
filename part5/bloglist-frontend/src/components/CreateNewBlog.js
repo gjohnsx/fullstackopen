@@ -31,11 +31,18 @@ const CreateNewBlog = ({ createBlog }) => {
 
   return(
     <div>
-      <form className='border border-gray-300 p-2' onSubmit={addBlog}>
+      <form className='border border-gray-300 p-2 my-2 rounded-md' onSubmit={addBlog}>
         <label htmlFor='blog-title'>
           <p className='text-xl font-bold'>
-                        Title
-            <input className='create-new-blog--title ml-1 font-normal indent-0.5 mb-2 border border-gray-500 rounded' id='blog-title' type='text' name='title' value={blogData.title} onChange={handleChange} required
+            Title
+            <input
+              className='create-new-blog--title ml-1 font-normal indent-0.5 mb-2 border border-gray-500 rounded'
+              id='blog-title'
+              type='text'
+              name='title'
+              value={blogData.title}
+              onChange={handleChange}
+              required
             />
           </p>
         </label>

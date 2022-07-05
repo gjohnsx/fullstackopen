@@ -119,6 +119,7 @@ const App = () => {
             className='mb-2 border border-gray-500 rounded'
             placeholder='username'
             name='username'
+            id='username'
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
@@ -127,10 +128,16 @@ const App = () => {
             className='mb-2 border border-gray-500 rounded ml-1'
             placeholder='password'
             name='password'
+            id='password'
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
-          <button className='bg-blue-600 text-white border border-black px-2 rounded-md my-2 ml-1 hover:bg-blue-900'>log in</button>
+          <button
+            className='bg-blue-600 text-white border border-black px-2 rounded-md my-2 ml-1 hover:bg-blue-900'
+            id='button-login'
+          >
+              log in
+          </button>
         </form>
 
         {notification && <Notification notification={notification}/>}
@@ -141,7 +148,7 @@ const App = () => {
 
   return (
     <div className='mx-2 my-4'>
-      <h2 className='text-8xl	text-blue-900'>blogs</h2>
+      <h2 className='text-8xl	text-blue-900 mb-6'>blogs</h2>
       {notification && <Notification notification={notification}/>}
       <p><strong>{user.name}</strong> logged in</p>
       <LogoutButton setUser={setUser} />
