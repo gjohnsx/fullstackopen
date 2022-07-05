@@ -11,28 +11,33 @@ describe('Blog App', () => {
   });
   
   it('Login form is shown', function() {
-    cy.get('#login');
+    cy.get('#username');
     cy.get('#password');
   });
 
-  it('A user can log in', () => {
-    cy.get('#username').type('gjohnsx');
-    cy.get('#password').type('fullstack');
-    cy.get('#button-login').click();
-
-    cy.contains('Greg Johns logged in');
+  describe('Login...', function() {
+    it('succeeds with correct credentials', () => {
+      cy.get('#username').type('gjohnsx');
+      cy.get('#password').type('fullstack');
+      cy.get('#button-login').click();
+  
+      cy.contains('Greg Johns logged in');
+    });
+    
+    it('fails with invalid credentials', () => {
+      cy.get('#username').type('gjohnsx');
+      cy.get('#password').type('password');
+      cy.get('#button-login').click();
+    
+      cy.get('.notification')
+        .should('contain', 'wrong username or password')
+        .and('have.css', 'color', 'rgb(255, 0, 0)')
+        .and('have.css', 'border-style', 'solid');
+    });
   });
-  
-  it.only('Login fails with invalid username or password', () => {
-    cy.get('#username').type('gjohnsx');
-    cy.get('#password').type('password');
-    cy.get('#button-login').click();
-  
-    cy.contains('wrong username or password');
-  })
 
-  describe('When logged in', function() {
+  // describe('When logged in', function() {
 
-  })
+  // })
 
 });
