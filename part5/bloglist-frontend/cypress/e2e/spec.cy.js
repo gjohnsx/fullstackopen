@@ -56,7 +56,26 @@ describe('Blog App', () => {
         .and('have.css', 'color', 'rgb(0, 128, 0)');
 
       cy.get('h3').contains('Test Blog from Cypress');
-    })
+    });
+    
+    it.only('A user can like a blog', function() {
+      cy.get('button').contains('add new blog').click();
+      cy.get('#blog-title').type('Test Blog from Cypress');
+      cy.get('#blog-author').type('Robo Cypress');
+      cy.get('#blog-url').type('www.cypress.io');
+      cy.get('.create-new-blog--btn').click();
+  
+      cy.get('.notification')
+        .should('contain', 'a new blog \'Test Blog from Cypress\' by Robo Cypress added.')
+        .and('have.css', 'color', 'rgb(0, 128, 0)');
+  
+      cy.get('.blog--btn-display').click();
+
+      cy.get('.blog--btn-like').click();
+      cy.get('.blog--likes').contains('Likes: 1');
+      cy.get('.blog--btn-like').click();
+      cy.get('.blog--likes').contains('Likes: 2');
+    });
   })
 
 });
