@@ -36,8 +36,27 @@ describe('Blog App', () => {
     });
   });
 
-  // describe('When logged in', function() {
+  describe.only('When logged in...', function() {
+    beforeEach(function() {
+      cy.get('#username').type('gjohnsx');
+      cy.get('#password').type('fullstack');
+      cy.get('#button-login').click();
+      cy.contains('Greg Johns logged in');
+    });
 
-  // })
+    it('A blog can be created', function() {
+      cy.get('button').contains('add new blog').click();
+      cy.get('#blog-title').type('Test Blog from Cypress');
+      cy.get('#blog-author').type('Robo Cypress');
+      cy.get('#blog-url').type('www.cypress.io');
+      cy.get('.create-new-blog--btn').click();
+
+      cy.get('.notification')
+        .should('contain', 'a new blog \'Test Blog from Cypress\' by Robo Cypress added.')
+        .and('have.css', 'color', 'rgb(0, 128, 0)');
+
+      cy.get('h3').contains('Test Blog from Cypress');
+    })
+  })
 
 });

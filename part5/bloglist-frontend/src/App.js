@@ -68,7 +68,7 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog));
         setNotification(prevNotification => ({
-          text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added..}`,
+          text: `a new blog '${returnedBlog.title}' by ${returnedBlog.author} added.`,
           type: 'success'
         }));
       })
