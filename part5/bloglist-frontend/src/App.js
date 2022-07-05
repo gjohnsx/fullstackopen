@@ -89,7 +89,11 @@ const App = () => {
         .then(response => {
           console.log(response);
         })
-        .then(setBlogs(blogs.filter(prevBlog => prevBlog.id !== blog.id)));
+        .then(setBlogs(blogs.filter(prevBlog => prevBlog.id !== blog.id)))
+        .then(setNotification(prevNotification => ({
+          text: `Removed blog '${blog.title}'`,
+          type: 'success'
+        })));
     }
   };
 
