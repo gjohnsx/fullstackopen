@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-const CreateNewBlog = ({ createBlog }) => {
+const CreateNewBlog = ({ createBlog, user }) => {
   const [blogData, setBlogData] = useState({
     title: '',
     author: '',
     url: '',
+    user: user
   });
 
   const addBlog = (event) => {

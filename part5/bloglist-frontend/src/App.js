@@ -81,6 +81,18 @@ const App = () => {
       })));
   };
 
+  const removeBlog = (blog) => {
+    console.log('Removing blog', blog.id);
+    if (window.confirm(`Remove blog '${blog.title} by ${blog.author}?`)) {
+      blogService
+        .deleteBlog(blog.id)
+        .then(response => {
+          console.log(response);
+        })
+        .then(setBlogs(blogs.filter(prevBlog => prevBlog.id !== blog.id)));
+    }
+  };
+
   const addLike = (blog) => {
     console.log('adding like for', blog.id);
     blogService
@@ -98,14 +110,14 @@ const App = () => {
   const blogForm = () => (
     <Toggleable buttonLabel='add new blog' ref={blogFormRef}>
       <CreateNewBlog
-        createBlog={addBlog}
+        createBlog={addBlog} user={user}
       />
     </Toggleable>
   );
 
   const blogsDisplay = () => (
     blogs.map(blog =>
-      <Blog key={blog.id} blog={blog} user={user} addLike={addLike} />
+      <Blog key={blog.id} blog={blog} user={user} addLike={addLike} removeBlog={removeBlog}/>
     )
   );
 
