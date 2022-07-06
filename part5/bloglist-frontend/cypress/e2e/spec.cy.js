@@ -38,9 +38,7 @@ describe('Blog App', () => {
 
   describe.only('When logged in...', function() {
     beforeEach(function() {
-      cy.get('#username').type('gjohnsx');
-      cy.get('#password').type('fullstack');
-      cy.get('#button-login').click();
+      cy.login({ username: 'gjohnsx', password: 'fullstack' });
       cy.contains('Greg Johns logged in');
     });
 
@@ -58,7 +56,7 @@ describe('Blog App', () => {
       cy.get('h3').contains('Test Blog from Cypress');
     });
 
-    describe.only('and a blog exists', function() {
+    describe('and a blog exists', function() {
       beforeEach(function() {
         cy.get('button').contains('add new blog').click();
         cy.get('#blog-title').type('Test Blog from Cypress');
@@ -80,11 +78,40 @@ describe('Blog App', () => {
         cy.get('.blog--likes').contains('2 likes');
       });
 
-      it.only('The blog creator can delete a blog', function() {
+      it('The blog creator can delete a blog', function() {
         cy.get('.blog--btn-display').click();
         cy.get('.blog--btn-remove').click();
 
         cy.contains('Removed blog \'Test Blog from Cypress');
+      });
+    });
+
+    describe.only('and multiple blogs exist', function() {
+      beforeEach(function() {
+        cy.createBlog({
+          title: 'Blog with the fewest likes',
+          author: 'gjohnsx',
+          url: 'www.greg.com/1',
+          likes: 5
+        });
+        cy.createBlog({
+          title: 'Blog with the most likes',
+          author: 'gjohnsx',
+          url: 'www.greg.com/2',
+          likes: 100
+        });
+        cy.createBlog({
+          title: 'Blog in the middle',
+          author: 'gjohnsx',
+          url: 'www.greg.com/3',
+          likes: 25
+        });
+      });
+
+      it('blogs are sorted in descending order of likes', function() {
+        cy.get('.blog').eq(0).should('contain', 'Blog with the most likes');
+        cy.get('.blog').eq(1).should('contain', 'Blog in the middle');
+        cy.get('.blog').eq(2).should('contain', 'Blog with the fewest likes');
       });
     });
   });

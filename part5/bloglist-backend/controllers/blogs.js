@@ -26,13 +26,13 @@ blogsRouter.get('/:id', (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body;
   const user = request.user;
-
+  console.log('\n', '*'.repeat(20), body);
   try {
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.number,
+      likes: body.likes,
       user: user._id
     });
 

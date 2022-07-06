@@ -27,7 +27,7 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
   };
 
   return (
-    <div className='border rounded-sm border-black mt-1 px-2 max-w-3xl mx-auto p-1 flex flex-row justify-between flex-wrap'>
+    <div className='blog border rounded-sm border-black mt-1 px-2 max-w-3xl mx-auto p-1 flex flex-row justify-between flex-wrap'>
       <div className='flex flex-col mr-auto'>
         <h3
           className='blog--title my-0 mr-1 inline'><strong>{blog.title}</strong>
