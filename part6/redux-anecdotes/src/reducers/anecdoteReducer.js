@@ -7,6 +7,12 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+// Debug with shorter list
+// const anecdotesAtStart = [
+//   'If it hurts, do it more often',
+//   'Adding manpower to a late software project makes it later!',
+// ]
+
 const getId = () => (1000000 * Math.random()).toFixed(0)
 
 const asObject = (anecdote) => {

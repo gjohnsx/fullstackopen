@@ -4,8 +4,8 @@ import {
   subtractLike,
   createAnecdote,
 } from "./reducers/anecdoteReducer";
-
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
   const anecdotes = useSelector((state) => state.sort((a, b) => b.votes - a.votes));
@@ -21,16 +21,7 @@ const App = () => {
     dispatch(subtractLike(id));
   };
 
-  const addNew = (event) => {
-    event.preventDefault();
-    console.log("adding new...");
-    // get the data from the input field
-    const content = event.target.anecdote.value;
-    console.log("content =", content);
-    // dispatch an event with createAnecdote and the data
-    event.target.anecdote.value = "";
-    dispatch(createAnecdote(content));
-  };
+
 
   const AnecdotesRender = () => {
     // const anecdotesSorted = anecdotes.sort((a, b) => b.votes - a.votes);
@@ -68,24 +59,8 @@ const App = () => {
 
       <AnecdotesRender />
 
-      <div className="py-2">
-        <div className="">
-          <h2 className="text-xl font-semibold">Create new</h2>
-          <form onSubmit={addNew}>
-            <div className="my-2">
-              <input
-                type="textarea"
-                name="anecdote"
-                placeholder="New anecdote..."
-                className="block p-2.5 w-full text-sm rounded border border-gray-300"
-              />
-            </div>
-            <button className="px-2 py-1 bg-orange-500 hover:bg-orange-600 rounded text-white">
-              Create
-            </button>
-          </form>
-        </div>
-      </div>
+      <AnecdoteForm />
+
     </div>
   );
 };
