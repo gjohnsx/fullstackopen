@@ -30,7 +30,14 @@ export const createAnecdote = (content) => {
 
 export const addLike = (id) => {
   return {
-    type: 'VOTE',
+    type: 'UPVOTE',
+    data: { id }
+  };
+};
+
+export const subtractLike = (id) => {
+  return {
+    type: 'DOWNVOTE',
     data: { id }
   };
 };
@@ -42,15 +49,25 @@ const reducer = (state = initialState, action) => {
   console.log('action', action)
 
   switch(action.type) {
-    case 'VOTE':
-      const id = action.data.id;
-      const anecdoteToVote = state.find(a => a.id === id);
+    case 'UPVOTE':
+      const upvoteId = action.data.id;
+      const anecdoteToUpvote = state.find(a => a.id === upvoteId);
       const changedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1
+        ...anecdoteToUpvote,
+        votes: anecdoteToUpvote.votes + 1
       }
       return state.map(a => 
-        a.id !== id ? a : changedAnecdote
+        a.id !== upvoteId ? a : changedAnecdote
+      )
+    case 'DOWNVOTE':
+      const downvoteId = action.data.id;
+      const anecdoteToDownvote = state.find(a => a.id === downvoteId);
+      const changedAnecdoteDownvote = {
+        ...anecdoteToDownvote,
+        votes: anecdoteToDownvote.votes -1
+      }
+      return state.map(a => 
+        a.id !== downvoteId ? a : changedAnecdoteDownvote
       )
     case 'NEW_ANECDOTE':
       return [
