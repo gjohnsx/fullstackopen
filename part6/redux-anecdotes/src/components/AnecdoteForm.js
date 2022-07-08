@@ -13,8 +13,8 @@ const AnecdoteForm = () => {
     };
 
     return (
-        <div className="anecdote-form mt-4 py-4 px-2 border border-slate-200 rounded">
-          <h2 className="text-xl font-semibold">Create new</h2>
+        <div className="anecdote-form mx-auto mt-4 py-4 px-2 border border-slate-500 rounded">
+          <h2 className="text-xl font-semibold text-slate-50">Create new</h2>
           <form onSubmit={addNew}>
             <div className="my-2">
               <input
