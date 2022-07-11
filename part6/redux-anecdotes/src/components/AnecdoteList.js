@@ -51,6 +51,9 @@ const AnecdoteList = () => {
             title: 'Upvoted anecdote',
             content
         }));
+        setTimeout(() => {
+            dispatch(hideNotification());
+        }, 5000);
     };
     
     const downvoteAnecdote = ({ content, id }) => {
@@ -58,7 +61,10 @@ const AnecdoteList = () => {
         dispatch(changeNotification({
             title: 'Downvoted anecdote',
             content
-        }))
+        }));
+        setTimeout(() => {
+            dispatch(hideNotification());
+        }, 5000);
     };
 
     return (

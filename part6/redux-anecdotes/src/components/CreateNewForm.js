@@ -14,6 +14,7 @@ export default function CreateNewForm({ onSubmit }) {
               className="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm"
               placeholder="Add a new anecdote..."
               defaultValue={''}
+              required
             />
 
             {/* Spacer element to match the height of the toolbar */}
