@@ -9,7 +9,9 @@ const AnecdoteList = () => {
             <div
                 className="flex my-2 py-1 px-4 border-2 border-slate-900 rounded drop-shadow-sm bg-gray-600 text-white items-center"
             >
-                <p className="mr-auto">{anecdote.content}</p>
+                <p className="mr-auto">
+                    {anecdote.content}
+                </p>
                 <p 
                     className={`${anecdote.votes > 0 ? 'text-green-500' : anecdote.votes < 0 ? 'text-red-500' : 'text-slate-400'} ml-2`}
                 >

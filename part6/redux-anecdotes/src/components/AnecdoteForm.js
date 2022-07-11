@@ -17,11 +17,12 @@ const AnecdoteForm = () => {
           <h2 className="text-xl font-semibold text-slate-50">Create new</h2>
           <form onSubmit={addNew}>
             <div className="my-2">
-              <input
-                type="textarea"
+              <textarea
+                rows={4}
                 name="anecdote"
+                id="anecdote"
                 placeholder="New anecdote..."
-                className="block p-2.5 w-full text-sm rounded border border-gray-300"
+                className="block p-2.5 w-full text-sm rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
             <button className="px-2 py-1 bg-orange-500 hover:bg-orange-600 rounded text-white">
