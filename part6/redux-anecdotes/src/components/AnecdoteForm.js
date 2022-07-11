@@ -8,7 +8,6 @@ const AnecdoteForm = () => {
     
     const addNew = event => {
         event.preventDefault();
-        console.log('\n\nAdding new anecdote!\n\n');
 
         const content = event.target.anecdote.value;
         event.target.anecdote.value = "";

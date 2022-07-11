@@ -35,7 +35,13 @@ const AnecdoteList = () => {
         );
     };
     const anecdotes = useSelector(({ anecdotes }) => anecdotes);
-    const sortedAnecdotes = anecdotes.slice().sort((a, b) => b.votes - a.votes);
+    const filter = useSelector(({ filter }) => filter);
+    const regex = new RegExp(filter);
+
+    const sortedAnecdotes = anecdotes
+        .slice()
+        .filter(anecdote => anecdote.content.match(regex))
+        .sort((a, b) => b.votes - a.votes);
 
     const dispatch = useDispatch();
 

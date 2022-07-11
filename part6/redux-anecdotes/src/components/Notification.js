@@ -4,20 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showNotification, hideNotification } from '../reducers/notificationReducer';
 import { CheckCircleIcon, ArrowSmUpIcon, ArrowSmDownIcon } from '@heroicons/react/outline'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-import anecdoteReducer from '../reducers/anecdoteReducer';
 
 const Notification = () => {
   const dispatch = useDispatch();
 
   const notificationData = useSelector(state => state);
-  const { title, content, show } = notificationData.notification;
+  const { content, show } = notificationData.notification;
   const disappearTime = 5000;
-
-  console.log('inside of Notification component');
-
-  console.log('notificationData =', notificationData)
-  console.log('content =', content);
-  console.log('show =', show);
 
   function openModal() {
     dispatch(showNotification());
@@ -32,7 +25,8 @@ const Notification = () => {
 
   return (
     <>
-      <div className="inset-0 flex items-center justify-center">
+      {/* Debug section: */}
+      {/* <div className="inset-0 flex items-center justify-center">
         <button
           type="button"
           onClick={openModal}
@@ -40,7 +34,9 @@ const Notification = () => {
         >
           Open dialog
         </button>
-      </div>
+      </div> */}
+
+
       <Transition appear show={show} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
