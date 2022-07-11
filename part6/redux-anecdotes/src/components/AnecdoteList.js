@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { upvote, downvote } from '../reducers/anecdoteReducer';
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/solid";
-
+import { changeNotification, hideNotification } from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
     const Anecdote = ({ anecdote }) => {
@@ -19,13 +19,13 @@ const AnecdoteList = () => {
                 </p>
                 <div className="vote-buttons flex flex-col ml-2">
                     <button
-                        onClick={() => upvoteAnecdote(anecdote.id)}
+                        onClick={() => upvoteAnecdote(anecdote)}
                         className="px-2 py-1 bg-orange-500 hover:bg-orange-600 rounded text-white mb-2"
                     >
                         <ChevronUpIcon className="h-5 w-5 text-white" />
                     </button>
                     <button
-                        onClick={() => downvoteAnecdote(anecdote.id)}
+                        onClick={() => downvoteAnecdote(anecdote)}
                         className="px-2 py-1 bg-slate-800 hover:bg-slate-900 rounded text-white"
                     >
                         <ChevronDownIcon className="h-5 w-5 text-white" />
@@ -39,12 +39,20 @@ const AnecdoteList = () => {
 
     const dispatch = useDispatch();
 
-    const upvoteAnecdote = (id) => {
+    const upvoteAnecdote = ({ content, id }) => {
         dispatch(upvote(id));
+        dispatch(changeNotification({
+            title: 'Upvoted anecdote',
+            content
+        }));
     };
     
-    const downvoteAnecdote = (id) => {
+    const downvoteAnecdote = ({ content, id }) => {
         dispatch(downvote(id));
+        dispatch(changeNotification({
+            title: 'Downvoted anecdote',
+            content
+        }))
     };
 
     return (

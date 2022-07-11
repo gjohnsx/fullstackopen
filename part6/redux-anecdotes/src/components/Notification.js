@@ -1,18 +1,33 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
-import { useSelector } from 'react-redux';
-import { CheckCircleIcon } from '@heroicons/react/outline'
+import { useSelector, useDispatch } from 'react-redux';
+import { showNotification, hideNotification } from '../reducers/notificationReducer';
+import { CheckCircleIcon, ArrowSmUpIcon, ArrowSmDownIcon } from '@heroicons/react/outline'
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import anecdoteReducer from '../reducers/anecdoteReducer';
 
 const Notification = () => {
-  const [show, setShow] = useState(true);
-  const notification = useSelector(({ notification }) => notification);
+  const dispatch = useDispatch();
 
-  function closeModal() {
-    setShow(false);
-  };
+  const notificationData = useSelector(state => state);
+  const { title, content, show } = notificationData.notification;
+  const disappearTime = 5000;
+
+  console.log('inside of Notification component');
+
+  console.log('notificationData =', notificationData)
+  console.log('content =', content);
+  console.log('show =', show);
 
   function openModal() {
-    setShow(true);
+    dispatch(showNotification());
+    setTimeout(() => {
+      dispatch(hideNotification())
+    }, disappearTime);
+  };
+
+  function closeModal() {
+    dispatch(hideNotification());
   };
 
   return (
@@ -55,17 +70,18 @@ const Notification = () => {
                   <div className="flex-shrink-0 mr-2">
                     <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
                   </div>
-                  <div>
+
+                  <div className="mr-auto">
                     <Dialog.Title
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      Added new anecdote
+                      {content.title}
                     </Dialog.Title>
 
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        {notification}
+                        {content.content}
                       </p>
                     </div>
 
@@ -78,7 +94,18 @@ const Notification = () => {
                         Got it, thanks!
                       </button>
                     </div>
+
                   </div>
+
+                  <CountdownCircleTimer 
+                    isPlaying
+                    size={25}
+                    strokeWidth={3}
+                    duration={disappearTime / 1000}
+                    colors={'#f97316'}
+                    className='flex-shrink-0 ml-2'
+                  />
+
                 </Dialog.Panel>
               </Transition.Child>
             </div>
