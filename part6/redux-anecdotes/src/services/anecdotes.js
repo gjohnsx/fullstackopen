@@ -17,9 +17,6 @@ const createNew = async (content) => {
 };
 
 const upvote = async (anecdote) => {
-    console.log('upvoting!');
-    console.log('anecdoteService: upvoting id=', anecdote.id);
-    console.log(`${baseUrl}/${anecdote.id}`);
     const response = await axios.put(`${baseUrl}/${anecdote.id}`, {
         ...anecdote,
         votes: anecdote.votes + 1
@@ -28,7 +25,6 @@ const upvote = async (anecdote) => {
 };
 
 const downvote = async (anecdote) => {
-    console.log('downvoting!');
     const response = await axios.put(`${baseUrl}/${anecdote.id}`, {
         ...anecdote,
         votes: anecdote.votes - 1

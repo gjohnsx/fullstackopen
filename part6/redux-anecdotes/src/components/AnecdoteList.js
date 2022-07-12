@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { upvote, downvote } from '../reducers/anecdoteReducer';
-import { changeNotification, hideNotification } from "../reducers/notificationReducer";
+import { setNotification } from "../reducers/notificationReducer";
 import { initializeAnecdotes } from '../reducers/anecdoteReducer';
 import Anecdote from "./Anecdote";
+
+export const NOTIFICATION_TIMEOUT = 2500;
 
 const AnecdoteList = () => {
     const dispatch = useDispatch();
@@ -23,24 +25,20 @@ const AnecdoteList = () => {
 
     const upvoteAnecdote = async (anecdote) => {
         dispatch(upvote(anecdote));
-        dispatch(changeNotification({
+        const notification = {
             title: 'Upvoted anecdote',
             content: anecdote.content
-        }));
-        setTimeout(() => {
-            dispatch(hideNotification());
-        }, 5000);
+        };
+        dispatch(setNotification(notification, NOTIFICATION_TIMEOUT));
     };
-    
+
     const downvoteAnecdote = async (anecdote) => {
         dispatch(downvote(anecdote));
-        dispatch(changeNotification({
+        const notification = {
             title: 'Downvoted anecdote',
             content: anecdote.content
-        }));
-        setTimeout(() => {
-            dispatch(hideNotification());
-        }, 5000);
+        };
+        dispatch(setNotification(notification, NOTIFICATION_TIMEOUT));
     };
 
     return (

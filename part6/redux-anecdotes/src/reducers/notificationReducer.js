@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  title: 'Added new whatever',
-  content: 'Hello, this is the initial notificiation message!',
+  title: '',
+  content: '',
   show: false,
 };
 
@@ -28,4 +28,14 @@ const notificationSlice = createSlice({
     changeNotification,
     showNotification,
     hideNotification } = notificationSlice.actions;
+
+  export const setNotification = (notification, time) => {
+    return async dispatch => {
+      dispatch(changeNotification(notification));
+      setTimeout(() => {
+        dispatch(hideNotification());
+      }, time);
+    }
+  }
+  
   export default notificationSlice.reducer;

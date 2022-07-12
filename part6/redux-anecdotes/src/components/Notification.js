@@ -1,22 +1,22 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { showNotification, hideNotification } from '../reducers/notificationReducer';
 import { CheckCircleIcon, ArrowSmUpIcon, ArrowSmDownIcon } from '@heroicons/react/outline'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { NOTIFICATION_TIMEOUT } from './AnecdoteList';
 
 const Notification = () => {
   const dispatch = useDispatch();
 
   const notificationData = useSelector(state => state);
   const { content, show } = notificationData.notification;
-  const disappearTime = 5000;
 
   function openModal() {
     dispatch(showNotification());
     setTimeout(() => {
       dispatch(hideNotification())
-    }, disappearTime);
+    }, NOTIFICATION_TIMEOUT);
   };
 
   function closeModal() {
@@ -35,7 +35,6 @@ const Notification = () => {
           Open dialog
         </button>
       </div> */}
-
 
       <Transition appear show={show} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -97,10 +96,12 @@ const Notification = () => {
                     isPlaying
                     size={25}
                     strokeWidth={3}
-                    duration={disappearTime / 1000}
+                    duration={NOTIFICATION_TIMEOUT / 1000}
                     colors={'#f97316'}
                     className='flex-shrink-0 ml-2'
-                  />
+                  >
+                    {/* {({ remainingTime }) => remainingTime} */}
+                  </CountdownCircleTimer>
 
                 </Dialog.Panel>
               </Transition.Child>

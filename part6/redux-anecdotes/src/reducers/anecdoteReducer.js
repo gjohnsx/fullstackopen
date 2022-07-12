@@ -45,12 +45,10 @@ export const upvote = (anecdote) => {
   return async dispatch => {
     const newAnecdote = await anecdoteService.upvote(anecdote);
     const anecdotes = await anecdoteService.getAll();
-    console.log(newAnecdote);
 
     const newAnecdotes = anecdotes.map(a => {
       return a.id !== newAnecdote.id ? a : newAnecdote
     });
-    console.log(newAnecdotes)
 
     dispatch(setAnecdotes(newAnecdotes));
   };
@@ -60,12 +58,10 @@ export const downvote = (anecdote) => {
   return async dispatch => {
     const newAnecdote = await anecdoteService.downvote(anecdote);
     const anecdotes = await anecdoteService.getAll();
-    console.log(newAnecdote);
 
     const newAnecdotes = anecdotes.map(a => {
       return a.id !== newAnecdote.id ? a : newAnecdote
     });
-    console.log(newAnecdotes)
 
     dispatch(setAnecdotes(newAnecdotes));
   };
