@@ -5,17 +5,17 @@ const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState: [],
   reducers: {
-    upvote(state, action) {
-      const id = action.payload;
-      const anecdoteToUpvote = state.find(a => a.id === id);
-      console.log('upvoting this anecdote...', anecdoteToUpvote)
-      anecdoteToUpvote.votes ++;
-    },
-    downvote(state, action) {
-      const id = action.payload;
-      const anecdoteToDownvote = state.find(a => a.id === id);
-      anecdoteToDownvote.votes --;
-    },
+    // upvote(state, action) {
+    //   const id = action.payload;
+    //   const anecdoteToUpvote = state.find(a => a.id === id);
+    //   console.log('upvoting this anecdote...', anecdoteToUpvote)
+    //   anecdoteToUpvote.votes ++;
+    // },
+    // downvote(state, action) {
+    //   const id = action.payload;
+    //   const anecdoteToDownvote = state.find(a => a.id === id);
+    //   anecdoteToDownvote.votes --;
+    // },
     setAnecdotes(state, action) {
       return action.payload;
     },
@@ -25,7 +25,7 @@ const anecdoteSlice = createSlice({
   }
 });
 
-export const { upvote, downvote, setAnecdotes, appendAnecdote } = anecdoteSlice.actions;
+export const { setAnecdotes, appendAnecdote } = anecdoteSlice.actions;
 
 export const initializeAnecdotes = () => {
   return async dispatch => {
@@ -38,7 +38,37 @@ export const createAnecdote = (content) => {
   return async dispatch => {
     const newAnecdote = await anecdoteService.createNew(content);
     dispatch(appendAnecdote(newAnecdote));
-  }
-}
+  };
+};
+
+export const upvote = (anecdote) => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.upvote(anecdote);
+    const anecdotes = await anecdoteService.getAll();
+    console.log(newAnecdote);
+
+    const newAnecdotes = anecdotes.map(a => {
+      return a.id !== newAnecdote.id ? a : newAnecdote
+    });
+    console.log(newAnecdotes)
+
+    dispatch(setAnecdotes(newAnecdotes));
+  };
+};
+
+export const downvote = (anecdote) => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.downvote(anecdote);
+    const anecdotes = await anecdoteService.getAll();
+    console.log(newAnecdote);
+
+    const newAnecdotes = anecdotes.map(a => {
+      return a.id !== newAnecdote.id ? a : newAnecdote
+    });
+    console.log(newAnecdotes)
+
+    dispatch(setAnecdotes(newAnecdotes));
+  };
+};
 
 export default anecdoteSlice.reducer;

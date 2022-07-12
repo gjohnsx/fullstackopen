@@ -16,8 +16,24 @@ const createNew = async (content) => {
     return response.data;
 };
 
-const updateVotes = async (content) => {
-    console.log(content);
-}
+const upvote = async (anecdote) => {
+    console.log('upvoting!');
+    console.log('anecdoteService: upvoting id=', anecdote.id);
+    console.log(`${baseUrl}/${anecdote.id}`);
+    const response = await axios.put(`${baseUrl}/${anecdote.id}`, {
+        ...anecdote,
+        votes: anecdote.votes + 1
+    });
+    return response.data;
+};
 
-export default { getAll, createNew, updateVotes }
+const downvote = async (anecdote) => {
+    console.log('downvoting!');
+    const response = await axios.put(`${baseUrl}/${anecdote.id}`, {
+        ...anecdote,
+        votes: anecdote.votes - 1
+    });
+    return response.data;
+};
+
+export default { getAll, createNew, upvote, downvote };

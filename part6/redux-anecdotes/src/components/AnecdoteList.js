@@ -2,16 +2,14 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { upvote, downvote } from '../reducers/anecdoteReducer';
 import { changeNotification, hideNotification } from "../reducers/notificationReducer";
-import { setAnecdotes } from '../reducers/anecdoteReducer';
-import anecdoteService from '../services/anecdotes';
+import { initializeAnecdotes } from '../reducers/anecdoteReducer';
 import Anecdote from "./Anecdote";
 
 const AnecdoteList = () => {
     const dispatch = useDispatch();
+
     useEffect(() => {
-        anecdoteService
-            .getAll()
-            .then(anecdotes => dispatch(setAnecdotes(anecdotes)))
+        dispatch(initializeAnecdotes());
     }, [dispatch]);
     
     const anecdotes = useSelector(({ filter, anecdotes }) => {
@@ -23,22 +21,22 @@ const AnecdoteList = () => {
             .sort((a, b) => b.votes - a.votes);
     });
 
-    const upvoteAnecdote = ({ content, id }) => {
-        dispatch(upvote(id));
+    const upvoteAnecdote = async (anecdote) => {
+        dispatch(upvote(anecdote));
         dispatch(changeNotification({
             title: 'Upvoted anecdote',
-            content
+            content: anecdote.content
         }));
         setTimeout(() => {
             dispatch(hideNotification());
         }, 5000);
     };
     
-    const downvoteAnecdote = ({ content, id }) => {
-        dispatch(downvote(id));
+    const downvoteAnecdote = async (anecdote) => {
+        dispatch(downvote(anecdote));
         dispatch(changeNotification({
             title: 'Downvoted anecdote',
-            content
+            content: anecdote.content
         }));
         setTimeout(() => {
             dispatch(hideNotification());
