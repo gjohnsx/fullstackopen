@@ -112,7 +112,7 @@ const typeDefs = gql`
         published: Int!
         author: String!
         id: ID!
-        genres: [Genre!]!
+        genres: [String!]!
     }
 
     type Query {
@@ -127,7 +127,7 @@ const typeDefs = gql`
             title: String!
             author: String!
             published: Int!
-            genres: [Genre!]!
+            genres: [String!]!
         ): Book
     }
 `
@@ -168,6 +168,13 @@ const resolvers = {
                 invalidArgs: args.title,
             })
         }
+
+        if (!authors.some(author => author.name === args.author)) {
+            authors = authors.concat({
+                name: args.author,
+                id: uuid(),
+            })
+        };
 
         const book = { ...args, id: uuid() };
         books = books.concat(book);
